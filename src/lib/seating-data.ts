@@ -40,35 +40,33 @@ export const generateInitialLayout = (): TableData[] => {
   let id = 1;
 
   // Couple table at top center
-  tables.push({ ...createEmptyTable(0, 0, -420, 2), label: 'Couple', isCouple: true });
+  tables.push({ ...createEmptyTable(0, 0, -440, 2), label: 'Couple', isCouple: true });
 
-  const colSpacing = 170;
-  const rowSpacing = 160;
+  const rowSpacing = 150;
+  const zigOffset = 70; // horizontal offset for zig-zag
 
-  // LEFT SIDE - 2 columns x 6 rows (12 tables)
-  // Far left column
+  // LEFT SIDE - zig-zag pattern, 2 columns x 6 rows
   for (let row = 0; row < 6; row++) {
-    tables.push(createEmptyTable(id++, -480, -280 + row * rowSpacing));
-  }
-  // Inner left column
-  for (let row = 0; row < 6; row++) {
-    tables.push(createEmptyTable(id++, -480 + colSpacing, -280 + row * rowSpacing));
+    const isOdd = row % 2 === 1;
+    // Far left
+    tables.push(createEmptyTable(id++, -440 + (isOdd ? zigOffset : 0), -260 + row * rowSpacing));
+    // Inner left
+    tables.push(createEmptyTable(id++, -270 + (isOdd ? zigOffset : 0), -260 + row * rowSpacing));
   }
 
-  // RIGHT SIDE - 2 columns x 6 rows (12 tables)
-  // Inner right column
+  // RIGHT SIDE - zig-zag pattern, 2 columns x 6 rows
   for (let row = 0; row < 6; row++) {
-    tables.push(createEmptyTable(id++, 480 - colSpacing, -280 + row * rowSpacing));
-  }
-  // Far right column
-  for (let row = 0; row < 6; row++) {
-    tables.push(createEmptyTable(id++, 480, -280 + row * rowSpacing));
+    const isOdd = row % 2 === 1;
+    // Inner right
+    tables.push(createEmptyTable(id++, 270 - (isOdd ? zigOffset : 0), -260 + row * rowSpacing));
+    // Far right
+    tables.push(createEmptyTable(id++, 440 - (isOdd ? zigOffset : 0), -260 + row * rowSpacing));
   }
 
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v7';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v8';
 
 export const loadSeatingData = (): TableData[] => {
   try {

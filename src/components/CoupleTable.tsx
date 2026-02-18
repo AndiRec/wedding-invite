@@ -12,52 +12,69 @@ const CoupleTable: React.FC<CoupleTableProps> = ({ table, onSeatClick }) => {
     <motion.div
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="absolute flex flex-col items-center gap-2"
+      transition={{ duration: 0.6, type: 'spring' }}
+      className="absolute flex flex-col items-center"
       style={{
         left: `calc(50% + ${table.x}px)`,
         top: `calc(50% + ${table.y}px)`,
         transform: 'translate(-50%, -50%)',
+        zIndex: 20,
       }}
     >
-      {/* Couple label */}
-      <p className="font-display text-xs font-semibold text-foreground/70 tracking-wide uppercase mb-1">
-        ✨ Couple Table ✨
+      {/* Label */}
+      <p className="font-display text-sm font-bold gold-text tracking-wide mb-2">
+        ✨ Edmond & Ajlin ✨
       </p>
 
-      <div className="flex items-center gap-3">
-        {table.seats.map((seat) => {
-          const occupied = seat.guest !== null;
-          return (
-            <button
-              key={seat.id}
-              onClick={() => onSeatClick(table.id, seat.id)}
-              className={`rounded-xl flex items-center justify-center transition-all duration-200 font-ui shadow-md
-                ${occupied
-                  ? 'gold-gradient text-primary-foreground'
-                  : 'bg-card border-2 border-primary/40 hover:border-primary/70'
-                }`}
-              style={{ width: 100, height: 44 }}
-              title={seat.guest?.name || `Seat ${seat.id}`}
-            >
-              {occupied ? (
-                <span className="text-xs font-medium truncate px-2">
-                  {seat.guest!.name}
-                </span>
-              ) : (
-                <span className="text-xs text-muted-foreground">
-                  {seat.id === 1 ? 'Edmond' : 'Ajlin'}
-                </span>
-              )}
-            </button>
-          );
-        })}
+      {/* Table visual */}
+      <div className="relative">
+        {/* Table surface */}
+        <div
+          className="rounded-2xl border-2 border-primary/40 shadow-lg flex items-center justify-center gap-4 px-6 py-3"
+          style={{
+            width: 260,
+            height: 60,
+            background: 'linear-gradient(135deg, hsl(40 40% 98%), hsl(43 60% 92%))',
+            boxShadow: '0 4px 20px hsl(43 72% 52% / 0.15)',
+          }}
+        >
+          {table.seats.map((seat) => {
+            const occupied = seat.guest !== null;
+            return (
+              <button
+                key={seat.id}
+                onClick={() => onSeatClick(table.id, seat.id)}
+                className={`rounded-xl flex items-center justify-center transition-all duration-200 font-ui
+                  ${occupied
+                    ? 'gold-gradient text-primary-foreground shadow-md'
+                    : 'bg-card border-2 border-primary/30 hover:border-primary/60'
+                  }`}
+                style={{ width: 100, height: 40 }}
+                title={seat.guest?.name || (seat.id === 1 ? 'Edmond' : 'Ajlin')}
+              >
+                {occupied ? (
+                  <span className="text-xs font-semibold truncate px-2">
+                    {seat.guest!.name}
+                  </span>
+                ) : (
+                  <span className="text-[11px] text-muted-foreground font-medium">
+                    {seat.id === 1 ? 'Edmond' : 'Ajlin'}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Table legs decoration */}
+        <div className="flex justify-center mt-1">
+          <div className="w-[200px] h-2 rounded-b-xl" style={{ background: 'hsl(43 60% 85%)' }} />
+        </div>
       </div>
 
-      {/* Decorative table surface */}
-      <div
-        className="w-[220px] h-3 rounded-b-xl bg-card border-x-2 border-b-2 border-primary/20"
-      />
+      <p className="font-ui text-[9px] text-muted-foreground mt-2 tracking-widest uppercase">
+        Couple Table
+      </p>
     </motion.div>
   );
 };
