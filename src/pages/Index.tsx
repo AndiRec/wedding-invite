@@ -23,9 +23,6 @@ const Index = () => {
   const [zoom, setZoom] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? 0.35 : 0.55);
   const [showGuestList, setShowGuestList] = useState(false);
   const [modal, setModal] = useState<{ tableId: number; seatId: number } | null>(null);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [isPanning, setIsPanning] = useState(false);
-  const panStart = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Auto-save
@@ -108,24 +105,6 @@ const Index = () => {
     window.print();
   }, []);
 
-  // Pan handlers
-  const onPointerDown = (e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).closest('button') || (e.target as HTMLElement).closest('input')) return;
-    setIsPanning(true);
-    panStart.current = { x: e.clientX, y: e.clientY, panX: pan.x, panY: pan.y };
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-  };
-
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!isPanning) return;
-    setPan({
-      x: panStart.current.panX + (e.clientX - panStart.current.x),
-      y: panStart.current.panY + (e.clientY - panStart.current.y),
-    });
-  };
-
-  const onPointerUp = () => setIsPanning(false);
-
   // Wheel zoom
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();
@@ -189,7 +168,7 @@ const Index = () => {
         </button>
         <div className="flex-1" />
         <button
-          onClick={() => { setPan({ x: 0, y: 0 }); setZoom(window.innerWidth < 768 ? 0.35 : 0.55); }}
+          onClick={() => { setZoom(window.innerWidth < 768 ? 0.35 : 0.55); }}
           className="font-ui text-[10px] text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-secondary"
         >
           Center
@@ -199,33 +178,22 @@ const Index = () => {
       {/* Canvas */}
       <div
         ref={containerRef}
-        className="flex-1 relative overflow-hidden cursor-grab active:cursor-grabbing"
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
+        className="flex-1 relative overflow-auto"
         onWheel={onWheel}
       >
-        {/* Subtle pattern bg */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="relative mx-auto"
           style={{
-            backgroundImage: 'radial-gradient(circle, hsl(43 72% 52%) 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-
-        <div
-          className="absolute inset-0"
-          style={{
-            transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-            transformOrigin: 'center center',
-            transition: isPanning ? 'none' : 'transform 0.2s ease-out',
+            width: 1100,
+            height: 1100,
+            transform: `scale(${zoom})`,
+            transformOrigin: 'top center',
+            marginTop: 16,
           }}
         >
           {/* Hall floor area */}
           <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border/15"
-            style={{ width: 1100, height: 1100 }}
+            className="absolute inset-0 rounded-2xl border border-border/15"
           />
 
           <DanceFloor />
@@ -254,7 +222,7 @@ const Index = () => {
       {/* Mobile hint */}
       <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-20 print:hidden">
         <p className="font-ui text-[10px] text-muted-foreground bg-card/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border shadow-sm">
-          Pinch to zoom · Drag to pan
+          Pinch to zoom · Scroll to navigate
         </p>
       </div>
 
