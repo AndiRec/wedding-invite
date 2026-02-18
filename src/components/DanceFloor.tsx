@@ -4,38 +4,33 @@ import { motion } from 'framer-motion';
 const DanceFloor: React.FC = () => {
   return (
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
+      initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10"
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 rounded-2xl"
       style={{
-        width: 200,
-        height: 850,
-        top: 'calc(50% + 30px)',
-        background: 'linear-gradient(180deg, hsl(43 72% 52% / 0.08), hsl(43 72% 52% / 0.15), hsl(43 72% 52% / 0.08))',
-        border: '2px solid hsl(43 72% 52% / 0.3)',
-        borderRadius: 16,
-        boxShadow: 'inset 0 0 60px hsl(43 72% 52% / 0.06), 0 0 40px hsl(43 72% 52% / 0.05)',
+        width: 180,
+        height: 820,
+        marginTop: 40,
+        background: 'linear-gradient(180deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.15))',
+        border: '2px solid hsl(var(--primary) / 0.35)',
+        boxShadow: 'inset 0 0 80px hsl(var(--primary) / 0.08)',
       }}
     >
-      <div
-        className="absolute inset-3 border border-dashed rounded-xl"
-        style={{ borderColor: 'hsl(43 72% 52% / 0.2)' }}
-      />
       <div className="text-center relative z-10">
-        <p className="text-3xl mb-3">💃</p>
+        <p className="text-2xl mb-2">💃</p>
         <p className="font-display text-sm font-bold text-foreground/80 tracking-wide">
           Dance Floor
         </p>
-        <p className="font-body text-sm text-primary/80 italic mt-1">
+        <p className="font-body text-xs text-primary/80 italic mt-1">
           Valle Shqiptare
         </p>
-        <div className="mt-4 w-12 h-px bg-primary/30 mx-auto" />
-        <p className="font-ui text-[10px] text-muted-foreground mt-4 tracking-[0.2em] uppercase">
+        <div className="mt-3 w-10 h-px bg-primary/30 mx-auto" />
+        <p className="font-ui text-[10px] text-muted-foreground mt-3 tracking-[0.15em] uppercase">
           Edmond & Ajlin
         </p>
         <p className="font-ui text-[10px] text-muted-foreground mt-0.5">9 May</p>
-        <p className="text-3xl mt-3">🕺</p>
+        <p className="text-2xl mt-2">🕺</p>
       </div>
     </motion.div>
   );
