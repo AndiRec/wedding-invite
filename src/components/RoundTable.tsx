@@ -10,13 +10,13 @@ interface RoundTableProps {
   scale: number;
 }
 
-const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNameChange, highlighted, scale }) => {
+const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNameChange, highlighted }) => {
   const [editingFamily, setEditingFamily] = useState(false);
   const [familyInput, setFamilyInput] = useState(table.familyName);
 
-  const tableSize = 80;
-  const chairDistance = 62;
-  const chairSize = 32;
+  const tableSize = 72;
+  const chairDistance = 58;
+  const chairSize = 34;
 
   const handleFamilySubmit = () => {
     onFamilyNameChange(table.id, familyInput);
@@ -52,7 +52,7 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
           <button
             key={seat.id}
             onClick={() => onSeatClick(table.id, seat.id)}
-            className={`absolute rounded-full flex items-center justify-center transition-all duration-200 font-ui leading-tight
+            className={`absolute rounded-full flex items-center justify-center transition-all duration-200 font-ui
               ${occupied
                 ? hl
                   ? 'bg-primary text-primary-foreground shadow-lg ring-2 ring-primary animate-pulse-gold'
@@ -64,18 +64,18 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
               height: chairSize,
               left: `calc(50% + ${cx}px - ${chairSize / 2}px)`,
               top: `calc(50% + ${cy}px - ${chairSize / 2}px)`,
-              fontSize: occupied ? '6px' : '8px',
             }}
             title={seat.guest?.name || `Seat ${seat.id} - Click to add guest`}
           >
             {occupied ? (
-              <span className="truncate max-w-[28px] px-0.5 text-center leading-[1.1]" style={{ fontSize: '5.5px' }}>
-                {seat.guest!.name.length > 8
-                  ? seat.guest!.name.split(' ').map(w => w.slice(0, 3)).join(' ')
-                  : seat.guest!.name}
+              <span
+                className="truncate max-w-[30px] text-center leading-tight px-0.5"
+                style={{ fontSize: '6px' }}
+              >
+                {seat.guest!.name}
               </span>
             ) : (
-              <span className="text-muted-foreground">{seat.id}</span>
+              <span className="text-muted-foreground" style={{ fontSize: '9px' }}>{seat.id}</span>
             )}
           </button>
         );
@@ -92,7 +92,7 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
         }}
         onClick={() => setEditingFamily(true)}
       >
-        <span className="font-ui text-[9px] font-semibold text-foreground/70 tracking-wide uppercase">
+        <span className="font-ui text-[8px] font-semibold text-foreground/70 tracking-wide uppercase">
           {table.label}
         </span>
         {editingFamily ? (
@@ -102,12 +102,12 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
             onChange={e => setFamilyInput(e.target.value)}
             onBlur={handleFamilySubmit}
             onKeyDown={e => e.key === 'Enter' && handleFamilySubmit()}
-            className="w-[60px] text-[8px] text-center bg-transparent border-b border-primary/40 outline-none font-body mt-0.5"
+            className="w-[55px] text-[7px] text-center bg-transparent border-b border-primary/40 outline-none font-body mt-0.5"
             placeholder="Family"
           />
         ) : (
           table.familyName && (
-            <span className="font-body text-[8px] text-primary/80 italic mt-0.5 truncate max-w-[60px]">
+            <span className="font-body text-[7px] text-primary/80 italic mt-0.5 truncate max-w-[55px]">
               {table.familyName}
             </span>
           )
