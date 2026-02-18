@@ -9,12 +9,11 @@ const DanceFloor: React.FC = () => {
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 rounded-2xl"
       style={{
-        width: 180,
-        height: 820,
-        marginTop: 40,
-        background: 'linear-gradient(180deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.15))',
-        border: '2px solid hsl(var(--primary) / 0.35)',
-        boxShadow: 'inset 0 0 80px hsl(var(--primary) / 0.08)',
+        width: 160,
+        height: 780,
+        background: 'linear-gradient(180deg, hsl(var(--primary) / 0.10), hsl(var(--primary) / 0.20), hsl(var(--primary) / 0.10))',
+        border: '2px solid hsl(var(--primary) / 0.30)',
+        boxShadow: 'inset 0 0 60px hsl(var(--primary) / 0.06)',
       }}
     >
       <div className="text-center relative z-10">
