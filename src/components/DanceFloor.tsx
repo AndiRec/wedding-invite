@@ -22,7 +22,7 @@ const DanceFloor: React.FC = () => {
       <div className="text-center relative z-10">
         <p className="text-2xl mb-2">💃</p>
         <p className="font-display text-sm font-bold text-foreground/80 tracking-wide">
-          Dance Floor
+          Pista e Vallëzimit
         </p>
         <p className="font-body text-xs text-primary/80 italic mt-1">
           Valle Shqiptare
@@ -31,7 +31,7 @@ const DanceFloor: React.FC = () => {
         <p className="font-ui text-[10px] text-muted-foreground mt-3 tracking-[0.15em] uppercase">
           Edmond & Ajlin
         </p>
-        <p className="font-ui text-[10px] text-muted-foreground mt-0.5">9 May</p>
+        <p className="font-ui text-[10px] text-muted-foreground mt-0.5">9 Maj</p>
         <p className="text-2xl mt-2">🕺</p>
       </div>
     </motion.div>
