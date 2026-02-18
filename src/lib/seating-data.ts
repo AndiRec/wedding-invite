@@ -37,32 +37,32 @@ export const generateInitialLayout = (): TableData[] => {
   const tables: TableData[] = [];
   let id = 1;
 
-  // Hall layout: long rectangle with wide central aisle
-  // Tables on LEFT side - 3 columns x 4 rows
-  const leftStartX = -680;
-  const colSpacing = 180;
-  const rowSpacing = 180;
-  const topY = -300;
+  // Horizontal rectangle hall layout (wide)
+  // Dance floor is a wide horizontal strip in the middle
+  // Tables on TOP and BOTTOM of the dance floor
+  // Like looking at the venue from above (bird's eye)
 
-  // Left side - 12 tables (3 cols x 4 rows)
-  for (let row = 0; row < 4; row++) {
-    for (let col = 0; col < 3; col++) {
-      tables.push(createEmptyTable(id++, leftStartX + col * colSpacing, topY + row * rowSpacing));
+  const colSpacing = 175;
+  const rowSpacing = 175;
+
+  // TOP section - 2 rows x 6 columns (12 tables)
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 6; col++) {
+      tables.push(createEmptyTable(id++, -440 + col * colSpacing, -360 + row * rowSpacing));
     }
   }
 
-  // Right side - 12 tables (3 cols x 4 rows)
-  const rightStartX = 320;
-  for (let row = 0; row < 4; row++) {
-    for (let col = 0; col < 3; col++) {
-      tables.push(createEmptyTable(id++, rightStartX + col * colSpacing, topY + row * rowSpacing));
+  // BOTTOM section - 2 rows x 6 columns (12 tables)
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 6; col++) {
+      tables.push(createEmptyTable(id++, -440 + col * colSpacing, 185 + row * rowSpacing));
     }
   }
 
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v5';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v6';
 
 export const loadSeatingData = (): TableData[] => {
   try {
