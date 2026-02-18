@@ -7,13 +7,11 @@ const DanceFloor: React.FC = () => {
       initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="absolute flex flex-col items-center justify-center z-10 rounded-2xl"
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 rounded-2xl"
       style={{
         width: 180,
-        height: 830,
-        left: `calc(50% + 0px)`,
-        top: `calc(50% + 108px)`,
-        transform: 'translate(-50%, -50%)',
+        height: 820,
+        marginTop: 40,
         background: 'linear-gradient(180deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.15))',
         border: '2px solid hsl(var(--primary) / 0.35)',
         boxShadow: 'inset 0 0 80px hsl(var(--primary) / 0.08)',
