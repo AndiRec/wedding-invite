@@ -62,7 +62,7 @@ export const generateInitialLayout = (): TableData[] => {
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v9';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v10';
 
 export const loadSeatingData = (): TableData[] => {
   try {

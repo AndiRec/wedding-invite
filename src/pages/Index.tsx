@@ -20,7 +20,7 @@ import {
 const Index = () => {
   const [tables, setTables] = useState<TableData[]>(loadSeatingData);
   const [search, setSearch] = useState('');
-  const [zoom, setZoom] = useState(0.55);
+  const [zoom, setZoom] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? 0.35 : 0.55);
   const [showGuestList, setShowGuestList] = useState(false);
   const [modal, setModal] = useState<{ tableId: number; seatId: number } | null>(null);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -189,7 +189,7 @@ const Index = () => {
         </button>
         <div className="flex-1" />
         <button
-          onClick={() => { setPan({ x: 0, y: 0 }); setZoom(0.55); }}
+          onClick={() => { setPan({ x: 0, y: 0 }); setZoom(window.innerWidth < 768 ? 0.35 : 0.55); }}
           className="font-ui text-[10px] text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-secondary"
         >
           Center
