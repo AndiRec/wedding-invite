@@ -14,6 +14,7 @@ export interface TableData {
   seats: Seat[];
   x: number;
   y: number;
+  isCouple?: boolean;
 }
 
 export interface SeatingData {
@@ -21,48 +22,53 @@ export interface SeatingData {
   lastUpdated: string;
 }
 
-export const createEmptyTable = (id: number, x: number, y: number): TableData => ({
+export const createEmptyTable = (id: number, x: number, y: number, seatCount = 10): TableData => ({
   id,
-  label: `Table ${id}`,
+  label: id === 0 ? 'Couple' : `Table ${id}`,
   familyName: '',
-  seats: Array.from({ length: 10 }, (_, i) => ({
+  seats: Array.from({ length: seatCount }, (_, i) => ({
     id: i + 1,
     guest: null,
   })),
   x,
   y,
+  isCouple: id === 0,
 });
 
 export const generateInitialLayout = (): TableData[] => {
   const tables: TableData[] = [];
   let id = 1;
 
-  // Horizontal rectangle hall layout (wide)
-  // Dance floor is a wide horizontal strip in the middle
-  // Tables on TOP and BOTTOM of the dance floor
-  // Like looking at the venue from above (bird's eye)
+  // Couple table at top center
+  tables.push({ ...createEmptyTable(0, 0, -420, 2), label: 'Couple', isCouple: true });
 
-  const colSpacing = 175;
-  const rowSpacing = 175;
+  const colSpacing = 170;
+  const rowSpacing = 160;
 
-  // TOP section - 2 rows x 6 columns (12 tables)
-  for (let row = 0; row < 2; row++) {
-    for (let col = 0; col < 6; col++) {
-      tables.push(createEmptyTable(id++, -440 + col * colSpacing, -360 + row * rowSpacing));
-    }
+  // LEFT SIDE - 2 columns x 6 rows (12 tables)
+  // Far left column
+  for (let row = 0; row < 6; row++) {
+    tables.push(createEmptyTable(id++, -480, -280 + row * rowSpacing));
+  }
+  // Inner left column
+  for (let row = 0; row < 6; row++) {
+    tables.push(createEmptyTable(id++, -480 + colSpacing, -280 + row * rowSpacing));
   }
 
-  // BOTTOM section - 2 rows x 6 columns (12 tables)
-  for (let row = 0; row < 2; row++) {
-    for (let col = 0; col < 6; col++) {
-      tables.push(createEmptyTable(id++, -440 + col * colSpacing, 185 + row * rowSpacing));
-    }
+  // RIGHT SIDE - 2 columns x 6 rows (12 tables)
+  // Inner right column
+  for (let row = 0; row < 6; row++) {
+    tables.push(createEmptyTable(id++, 480 - colSpacing, -280 + row * rowSpacing));
+  }
+  // Far right column
+  for (let row = 0; row < 6; row++) {
+    tables.push(createEmptyTable(id++, 480, -280 + row * rowSpacing));
   }
 
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v6';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v7';
 
 export const loadSeatingData = (): TableData[] => {
   try {
