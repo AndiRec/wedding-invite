@@ -182,15 +182,21 @@ const Index = () => {
         onWheel={onWheel}
       >
         <div
-          className="relative mx-auto"
+          className="mx-auto"
           style={{
-            width: 1200,
-            height: 1500,
-            transform: `scale(${zoom})`,
-            transformOrigin: 'top center',
-            marginTop: 16,
+            width: 1200 * zoom,
+            height: 1400 * zoom,
           }}
         >
+          <div
+            className="relative"
+            style={{
+              width: 1200,
+              height: 1400,
+              transform: `scale(${zoom})`,
+              transformOrigin: 'top left',
+            }}
+          >
           {/* Hall floor area */}
           <div
             className="absolute inset-0 rounded-2xl border border-border/15"
@@ -216,6 +222,7 @@ const Index = () => {
               />
             )
           ))}
+        </div>
         </div>
       </div>
 

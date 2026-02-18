@@ -10,9 +10,9 @@ const DanceFloor: React.FC = () => {
       className="absolute flex flex-col items-center justify-center z-10 rounded-2xl"
       style={{
         width: 200,
-        height: 1140,
+        height: 950,
         left: '50%',
-        top: 'calc(50% - 280px)',
+        top: 'calc(50% - 240px)',
         transform: 'translateX(-50%)',
         background: 'linear-gradient(180deg, hsl(var(--primary) / 0.10), hsl(var(--primary) / 0.20), hsl(var(--primary) / 0.10))',
         border: '2px solid hsl(var(--primary) / 0.30)',

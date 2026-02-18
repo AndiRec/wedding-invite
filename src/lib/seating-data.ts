@@ -40,7 +40,7 @@ export const generateInitialLayout = (): TableData[] => {
   let id = 1;
 
   // Couple table at top center (inline with dance floor)
-  tables.push({ ...createEmptyTable(0, 0, -380, 2), label: 'Couple', isCouple: true });
+  tables.push({ ...createEmptyTable(0, 0, -430, 2), label: 'Couple', isCouple: true });
 
   const rowSpacing = 155;
   const zigOffset = 60;
@@ -62,7 +62,7 @@ export const generateInitialLayout = (): TableData[] => {
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v11';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v12';
 
 export const loadSeatingData = (): TableData[] => {
   try {
