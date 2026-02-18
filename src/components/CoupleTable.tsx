@@ -10,14 +10,14 @@ interface CoupleTableProps {
 const CoupleTable: React.FC<CoupleTableProps> = ({ table, onSeatClick }) => {
   return (
     <motion.div
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, type: 'spring' }}
       className="absolute flex flex-col items-center"
       style={{
         left: `calc(50% + ${table.x}px)`,
         top: `calc(50% + ${table.y}px)`,
-        transform: 'translate(-50%, -50%)',
+        transform: 'translateX(-50%)',
         zIndex: 20,
       }}
     >
