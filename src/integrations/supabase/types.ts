@@ -14,7 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      seats: {
+        Row: {
+          created_at: string
+          guest_name: string | null
+          id: number
+          seat_number: number
+          table_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          guest_name?: string | null
+          id?: number
+          seat_number: number
+          table_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          guest_name?: string | null
+          id?: number
+          seat_number?: number
+          table_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seats_table_id_fkey"
+            columns: ["table_id"]
+            isOneToOne: false
+            referencedRelation: "tables"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tables: {
+        Row: {
+          created_at: string
+          family_name: string
+          id: number
+          is_couple: boolean
+          label: string
+          seat_count: number
+          updated_at: string
+          x: number
+          y: number
+        }
+        Insert: {
+          created_at?: string
+          family_name?: string
+          id: number
+          is_couple?: boolean
+          label?: string
+          seat_count?: number
+          updated_at?: string
+          x?: number
+          y?: number
+        }
+        Update: {
+          created_at?: string
+          family_name?: string
+          id?: number
+          is_couple?: boolean
+          label?: string
+          seat_count?: number
+          updated_at?: string
+          x?: number
+          y?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

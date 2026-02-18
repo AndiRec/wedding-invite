@@ -13,7 +13,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
       <input
         value={value}
         onChange={e => onChange(e.target.value)}
-        placeholder="Search guest..."
+        placeholder="Kërko mysafir..."
         className="w-full pl-9 pr-8 py-2 rounded-xl bg-card/80 border border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 outline-none font-ui text-sm text-foreground placeholder:text-muted-foreground transition-all"
       />
       {value && (

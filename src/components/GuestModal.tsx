@@ -47,10 +47,10 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, onClose, onSave, onDele
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-display text-lg font-semibold text-foreground">
-                  {currentName ? 'Edit Guest' : 'Add Guest'}
+                  {currentName ? 'Ndrysho Mysafirin' : 'Shto Mysafir'}
                 </h3>
                 <p className="font-ui text-xs text-muted-foreground mt-0.5">
-                  {tableLabel} · Seat {seatId}
+                  {tableLabel} · Ulëse {seatId}
                 </p>
               </div>
               <button onClick={onClose} className="p-1.5 rounded-full hover:bg-secondary transition-colors">
@@ -65,7 +65,7 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, onClose, onSave, onDele
                 value={name}
                 onChange={e => setName(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSave()}
-                placeholder="Guest name..."
+                placeholder="Emri i mysafirit..."
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-secondary/60 border border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 outline-none font-body text-base text-foreground placeholder:text-muted-foreground transition-all"
               />
             </div>
@@ -77,14 +77,14 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, onClose, onSave, onDele
                   className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-destructive/10 text-destructive hover:bg-destructive/20 font-ui text-sm transition-colors"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
-                  Remove
+                  Hiq
                 </button>
               )}
               <button
                 onClick={handleSave}
                 className="flex-1 px-4 py-2.5 rounded-xl gold-gradient text-primary-foreground font-ui text-sm font-medium hover:opacity-90 transition-opacity shadow-md"
               >
-                {currentName ? 'Update' : 'Add Guest'}
+                {currentName ? 'Përditëso' : 'Shto Mysafir'}
               </button>
             </div>
           </motion.div>
