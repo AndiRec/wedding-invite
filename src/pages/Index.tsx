@@ -225,7 +225,7 @@ const Index = () => {
           {/* Hall floor area */}
           <div
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border/15"
-            style={{ width: 1150, height: 1050 }}
+            style={{ width: 1100, height: 1100 }}
           />
 
           <DanceFloor />
