@@ -15,9 +15,12 @@ const CoupleTable: React.FC<CoupleTableProps> = ({ table, onSeatClick }) => {
       transition={{ duration: 0.6, type: 'spring' }}
       className="absolute flex flex-col items-center"
       style={{
-        left: `calc(50% + ${table.x}px)`,
+        left: 0,
+        right: 0,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: 'fit-content',
         top: `calc(50% + ${table.y}px)`,
-        transform: 'translateX(-50%)',
         zIndex: 20,
       }}
     >
