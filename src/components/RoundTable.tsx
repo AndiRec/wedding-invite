@@ -15,8 +15,8 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
   const [familyInput, setFamilyInput] = useState(table.familyName);
 
   const tableSize = 80;
-  const chairDistance = 58;
-  const chairSize = 26;
+  const chairDistance = 62;
+  const chairSize = 32;
 
   const handleFamilySubmit = () => {
     onFamilyNameChange(table.id, familyInput);
@@ -32,7 +32,7 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
     <motion.div
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4, delay: table.id * 0.03 }}
+      transition={{ duration: 0.4, delay: table.id * 0.02 }}
       className="absolute"
       style={{
         left: `calc(50% + ${table.x}px)`,
@@ -52,7 +52,7 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
           <button
             key={seat.id}
             onClick={() => onSeatClick(table.id, seat.id)}
-            className={`absolute rounded-full flex items-center justify-center transition-all duration-200 text-[8px] leading-tight font-ui
+            className={`absolute rounded-full flex items-center justify-center transition-all duration-200 font-ui leading-tight
               ${occupied
                 ? hl
                   ? 'bg-primary text-primary-foreground shadow-lg ring-2 ring-primary animate-pulse-gold'
@@ -64,15 +64,18 @@ const RoundTable: React.FC<RoundTableProps> = ({ table, onSeatClick, onFamilyNam
               height: chairSize,
               left: `calc(50% + ${cx}px - ${chairSize / 2}px)`,
               top: `calc(50% + ${cy}px - ${chairSize / 2}px)`,
+              fontSize: occupied ? '6px' : '8px',
             }}
             title={seat.guest?.name || `Seat ${seat.id} - Click to add guest`}
           >
             {occupied ? (
-              <span className="truncate max-w-[22px] px-0.5">
-                {seat.guest!.name.split(' ').map(w => w[0]).join('')}
+              <span className="truncate max-w-[28px] px-0.5 text-center leading-[1.1]" style={{ fontSize: '5.5px' }}>
+                {seat.guest!.name.length > 8
+                  ? seat.guest!.name.split(' ').map(w => w.slice(0, 3)).join(' ')
+                  : seat.guest!.name}
               </span>
             ) : (
-              <span className="text-muted-foreground text-[7px]">{seat.id}</span>
+              <span className="text-muted-foreground">{seat.id}</span>
             )}
           </button>
         );

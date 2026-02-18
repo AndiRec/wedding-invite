@@ -221,10 +221,10 @@ const Index = () => {
             transition: isPanning ? 'none' : 'transform 0.2s ease-out',
           }}
         >
-          {/* Floor area indicator - rectangular */}
+          {/* Hall floor area */}
           <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border/20"
-            style={{ width: 1200, height: 850 }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border/15"
+            style={{ width: 1500, height: 850 }}
           />
 
           <DanceFloor />

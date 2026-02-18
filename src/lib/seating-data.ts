@@ -37,44 +37,32 @@ export const generateInitialLayout = (): TableData[] => {
   const tables: TableData[] = [];
   let id = 1;
 
-  // Dance floor is ~500x280 rectangle at center (0,0)
-  // Tables arranged in a rectangular pattern around it
-  // Each table is ~140px wide (80 center + 58 chair offset)
+  // Hall layout: long rectangle with wide central aisle
+  // Tables on LEFT side - 3 columns x 4 rows
+  const leftStartX = -680;
+  const colSpacing = 180;
+  const rowSpacing = 180;
+  const topY = -300;
 
-  // Top row - 7 tables
-  for (let i = 0; i < 7; i++) {
-    tables.push(createEmptyTable(id++, -480 + i * 160, -280));
+  // Left side - 12 tables (3 cols x 4 rows)
+  for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 3; col++) {
+      tables.push(createEmptyTable(id++, leftStartX + col * colSpacing, topY + row * rowSpacing));
+    }
   }
 
-  // Bottom row - 7 tables
-  for (let i = 0; i < 7; i++) {
-    tables.push(createEmptyTable(id++, -480 + i * 160, 310));
-  }
-
-  // Left column - 3 tables (between top and bottom rows)
-  for (let i = 0; i < 3; i++) {
-    tables.push(createEmptyTable(id++, -480, -110 + i * 150));
-  }
-
-  // Right column - 3 tables
-  for (let i = 0; i < 3; i++) {
-    tables.push(createEmptyTable(id++, 480, -110 + i * 150));
-  }
-
-  // Far left extras - 2 tables
-  for (let i = 0; i < 2; i++) {
-    tables.push(createEmptyTable(id++, -640, -40 + i * 150));
-  }
-
-  // Far right extras - 2 tables  
-  for (let i = 0; i < 2; i++) {
-    tables.push(createEmptyTable(id++, 640, -40 + i * 150));
+  // Right side - 12 tables (3 cols x 4 rows)
+  const rightStartX = 320;
+  for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 3; col++) {
+      tables.push(createEmptyTable(id++, rightStartX + col * colSpacing, topY + row * rowSpacing));
+    }
   }
 
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v4';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v5';
 
 export const loadSeatingData = (): TableData[] => {
   try {
