@@ -184,15 +184,15 @@ const Index = () => {
         <div
           className="mx-auto"
           style={{
-            width: 1200 * zoom,
-            height: 1400 * zoom,
+            width: 1300 * zoom,
+            height: 1500 * zoom,
           }}
         >
           <div
             className="relative"
             style={{
-              width: 1200,
-              height: 1400,
+              width: 1300,
+              height: 1500,
               transform: `scale(${zoom})`,
               transformOrigin: 'top left',
             }}
