@@ -39,21 +39,21 @@ export const generateInitialLayout = (): TableData[] => {
   const tables: TableData[] = [];
   let id = 1;
 
-  // Couple table at top center
-  tables.push({ ...createEmptyTable(0, 0, -460, 2), label: 'Couple', isCouple: true });
+  // Couple table at top center (inline with dance floor)
+  tables.push({ ...createEmptyTable(0, 0, -380, 2), label: 'Couple', isCouple: true });
 
   const rowSpacing = 155;
   const zigOffset = 60;
 
-  // LEFT SIDE - zig-zag: odd rows shift right
-  for (let row = 0; row < 6; row++) {
+  // LEFT SIDE - zig-zag: odd rows shift right (8 rows)
+  for (let row = 0; row < 8; row++) {
     const shift = row % 2 === 1 ? zigOffset : 0;
     tables.push(createEmptyTable(id++, -460 + shift, -280 + row * rowSpacing));
     tables.push(createEmptyTable(id++, -290 + shift, -280 + row * rowSpacing));
   }
 
-  // RIGHT SIDE - zig-zag: odd rows shift left (mirror)
-  for (let row = 0; row < 6; row++) {
+  // RIGHT SIDE - zig-zag: odd rows shift left (mirror, 8 rows)
+  for (let row = 0; row < 8; row++) {
     const shift = row % 2 === 1 ? -zigOffset : 0;
     tables.push(createEmptyTable(id++, 290 + shift, -280 + row * rowSpacing));
     tables.push(createEmptyTable(id++, 460 + shift, -280 + row * rowSpacing));
@@ -62,7 +62,7 @@ export const generateInitialLayout = (): TableData[] => {
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v10';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v11';
 
 export const loadSeatingData = (): TableData[] => {
   try {

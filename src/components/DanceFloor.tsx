@@ -10,7 +10,7 @@ const DanceFloor: React.FC = () => {
       className="absolute flex flex-col items-center justify-center z-10 rounded-2xl"
       style={{
         width: 200,
-        height: 830,
+        height: 1140,
         left: '50%',
         top: 'calc(50% - 280px)',
         transform: 'translateX(-50%)',

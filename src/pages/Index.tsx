@@ -20,7 +20,7 @@ import {
 const Index = () => {
   const [tables, setTables] = useState<TableData[]>(loadSeatingData);
   const [search, setSearch] = useState('');
-  const [zoom, setZoom] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? 0.35 : 0.55);
+  const [zoom, setZoom] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? 0.3 : 0.45);
   const [showGuestList, setShowGuestList] = useState(false);
   const [modal, setModal] = useState<{ tableId: number; seatId: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -168,7 +168,7 @@ const Index = () => {
         </button>
         <div className="flex-1" />
         <button
-          onClick={() => { setZoom(window.innerWidth < 768 ? 0.35 : 0.55); }}
+          onClick={() => { setZoom(window.innerWidth < 768 ? 0.3 : 0.45); }}
           className="font-ui text-[10px] text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-secondary"
         >
           Center
@@ -184,8 +184,8 @@ const Index = () => {
         <div
           className="relative mx-auto"
           style={{
-            width: 1100,
-            height: 1100,
+            width: 1200,
+            height: 1500,
             transform: `scale(${zoom})`,
             transformOrigin: 'top center',
             marginTop: 16,
