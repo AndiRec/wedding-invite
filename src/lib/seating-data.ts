@@ -37,30 +37,44 @@ export const generateInitialLayout = (): TableData[] => {
   const tables: TableData[] = [];
   let id = 1;
 
-  // Inner ring - 8 tables close to dance floor
-  const innerRadius = 220;
-  for (let i = 0; i < 8; i++) {
-    const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
-    tables.push(createEmptyTable(id++, 
-      Math.cos(angle) * innerRadius,
-      Math.sin(angle) * innerRadius
-    ));
+  // Dance floor is ~500x280 rectangle at center (0,0)
+  // Tables arranged in a rectangular pattern around it
+  // Each table is ~140px wide (80 center + 58 chair offset)
+
+  // Top row - 7 tables
+  for (let i = 0; i < 7; i++) {
+    tables.push(createEmptyTable(id++, -480 + i * 160, -280));
   }
 
-  // Outer ring - 16 tables
-  const outerRadius = 400;
-  for (let i = 0; i < 16; i++) {
-    const angle = (i / 16) * Math.PI * 2 - Math.PI / 2 + Math.PI / 16;
-    tables.push(createEmptyTable(id++,
-      Math.cos(angle) * outerRadius,
-      Math.sin(angle) * outerRadius
-    ));
+  // Bottom row - 7 tables
+  for (let i = 0; i < 7; i++) {
+    tables.push(createEmptyTable(id++, -480 + i * 160, 310));
+  }
+
+  // Left column - 3 tables (between top and bottom rows)
+  for (let i = 0; i < 3; i++) {
+    tables.push(createEmptyTable(id++, -480, -110 + i * 150));
+  }
+
+  // Right column - 3 tables
+  for (let i = 0; i < 3; i++) {
+    tables.push(createEmptyTable(id++, 480, -110 + i * 150));
+  }
+
+  // Far left extras - 2 tables
+  for (let i = 0; i < 2; i++) {
+    tables.push(createEmptyTable(id++, -640, -40 + i * 150));
+  }
+
+  // Far right extras - 2 tables  
+  for (let i = 0; i < 2; i++) {
+    tables.push(createEmptyTable(id++, 640, -40 + i * 150));
   }
 
   return tables;
 };
 
-export const STORAGE_KEY = 'wedding-seating-edmond-ajlin';
+export const STORAGE_KEY = 'wedding-seating-edmond-ajlin-v4';
 
 export const loadSeatingData = (): TableData[] => {
   try {
