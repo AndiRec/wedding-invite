@@ -4,13 +4,16 @@ import { motion } from 'framer-motion';
 const DanceFloor: React.FC = () => {
   return (
     <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 rounded-2xl"
+      className="absolute flex flex-col items-center justify-center z-10 rounded-2xl"
       style={{
-        width: 160,
-        height: 780,
+        width: 200,
+        height: 830,
+        left: '50%',
+        top: 'calc(50% - 280px)',
+        transform: 'translateX(-50%)',
         background: 'linear-gradient(180deg, hsl(var(--primary) / 0.10), hsl(var(--primary) / 0.20), hsl(var(--primary) / 0.10))',
         border: '2px solid hsl(var(--primary) / 0.30)',
         boxShadow: 'inset 0 0 60px hsl(var(--primary) / 0.06)',
