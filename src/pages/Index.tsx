@@ -53,6 +53,31 @@ const Index = () => {
     setTables(prev => prev.map(t => t.id === tableId ? { ...t, familyName: name } : t));
   }, []);
 
+  const handleSaveTable = useCallback((tableId: number, seatCount: number) => {
+    setTables(prev => prev.map(t => {
+      if (t.id !== tableId) return t;
+      const occupied = t.seats.filter(s => s.guest !== null);
+      const empty = t.seats.filter(s => s.guest === null);
+      let newSeats;
+      if (seatCount <= occupied.length) {
+        // Keep only occupied seats (trim all empty)
+        newSeats = occupied.slice(0, seatCount);
+      } else {
+        // Keep all occupied + enough empty to reach seatCount
+        const emptyNeeded = seatCount - occupied.length;
+        newSeats = [...occupied, ...empty.slice(0, emptyNeeded)];
+        // If we need more empty seats than exist, create new ones
+        const maxId = Math.max(...t.seats.map(s => s.id), 0);
+        for (let i = newSeats.length; i < seatCount; i++) {
+          newSeats.push({ id: maxId + (i - newSeats.length) + 1, guest: null });
+        }
+      }
+      // Re-number seat IDs sequentially
+      newSeats = newSeats.map((s, idx) => ({ ...s, id: idx + 1 }));
+      return { ...t, seats: newSeats };
+    }));
+  }, []);
+
   const currentSeat = useMemo(() => {
     if (!modal) return null;
     const table = tables.find(t => t.id === modal.tableId);
@@ -217,6 +242,7 @@ const Index = () => {
                 table={table}
                 onSeatClick={handleSeatClick}
                 onFamilyNameChange={handleFamilyNameChange}
+                onSaveTable={handleSaveTable}
                 highlighted={highlighted}
                 scale={zoom}
               />
