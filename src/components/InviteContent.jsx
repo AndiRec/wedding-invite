@@ -4,7 +4,7 @@ const fadeUp = {
   hidden: { opacity: 0, y: 34 },
   show: { opacity: 1, y: 0 },
 };
-
+//asd
 export default function InviteContent() {
   return (
     <motion.div
