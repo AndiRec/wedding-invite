@@ -63,9 +63,9 @@ export default function Envelope() {
               <p className="opening-small">Wedding Invitation</p>
 
               <div className="opening-names">
-                <h1>Elena</h1>
+                <h1>Arthur</h1>
                 <span>&</span>
-                <h1>Marko</h1>
+                <h1>Aurelia</h1>
               </div>
 
               <div className="opening-divider" />
