@@ -60,7 +60,7 @@ Message: ${formData.message}
             <p className="eyebrow">Together with their families</p>
 
             <h1 className="couple-names">
-              Elena <span>&</span> Marko
+              Aurelia <span>&</span> Arthur
             </h1>
 
             <p className="hero-subtitle">Request the honor of your presence</p>
