@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 34 },
@@ -40,7 +40,7 @@ Message: ${formData.message}
   };
 
   return (
-    <motion.div
+    <Motion.div
       className="invite-page"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -50,7 +50,7 @@ Message: ${formData.message}
         <img src="/wedding3.jpg" alt="Couple" className="hero-image" />
 
         <div className="hero-overlay">
-          <motion.div
+          <Motion.div
             className="hero-content"
             variants={fadeUp}
             initial="hidden"
@@ -66,7 +66,7 @@ Message: ${formData.message}
             <p className="hero-subtitle">Request the honor of your presence</p>
 
             <div className="hero-date">12 July 2026 • Skopje</div>
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
@@ -288,6 +288,6 @@ Message: ${formData.message}
           <p className="footer-message">With love, Elena & Marko</p>
         </div>
       </section>
-    </motion.div>
+    </Motion.div>
   );
 }
