@@ -1,0 +1,571 @@
+/* ==================================================================
+   Envelope.css — wedding invitation envelope
+   Static visuals only; motion is driven by framer-motion in
+   Envelope.jsx (or by the demo's own style block in demo.html).
+
+   Envelope geometry is defined by SVG paths (objectBoundingBox
+   clipPaths rendered by the component) so the shapes scale with the
+   envelope and stay fully editable: see env-clip-flap and the
+   env-clip-pocket-* ids.
+   ================================================================== */
+
+/* Optional font — remove if you self-host or already load it */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap");
+
+.env-screen {
+  /* Palette — warm ivory paper + antique gold on a soft blush-pink ground */
+  --paper: #f4efe1;
+  --paper-deep: #e4dcc4;
+  --liner-a: #e2d5b4;
+  --liner-b: #f0e8d4;
+  --ink: #2e2a23;
+  --ink-soft: #5d5547;
+  --gold: #a08350;
+  --gold-deep: #7c6234;
+  --bg-pink: #f3dfd9;
+  /* Real photographed paper texture — overlaid on the paper surfaces so the
+     stationery reads as genuine fibrous card stock */
+  --paper-tex: url("/paper-texture.jpg");
+
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  user-select: none;
+  /* Soft blush-pink ground with a gentle lighter glow behind the envelope */
+  background:
+    radial-gradient(
+      120% 90% at 50% 42%,
+      #faece8 0%,
+      var(--bg-pink) 58%,
+      #ecccc3 100%
+    );
+  -webkit-user-select: none;
+}
+
+/* The hidden SVG that carries the envelope's clipPath geometry */
+.env-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ---------- couple line-art watermark (behind the envelope) ---------- */
+
+.couple-bg {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  /* Deliberately larger than the envelope so the couple frames the scene */
+  width: min(155vw, 1180px);
+  aspect-ratio: 1376 / 768;
+  z-index: 0; /* behind the stage (1), above the page background */
+  pointer-events: none;
+  /* The transparent PNG is the alpha mask; ink is a soft rose-taupe so the
+     drawing reads as a delicate watermark on the blush ground.
+     NOTE: overall opacity is driven by Framer Motion (fades in), so it is
+     intentionally not set here. */
+  background: linear-gradient(
+    180deg,
+    rgba(150, 104, 98, 0.95),
+    rgba(126, 86, 82, 1)
+  );
+  -webkit-mask: url("/couple-lines-emboss.png") center / contain no-repeat;
+  mask: url("/couple-lines-emboss.png") center / contain no-repeat;
+}
+
+/* ---------- sparse drifting petals ---------- */
+
+.env-ambient {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.drift-petal {
+  position: absolute;
+  top: -6%;
+  border-radius: 100% 4% 100% 4%;
+  opacity: 0;
+  filter: blur(0.4px);
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -8vh, 0) rotate(10deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.38;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0px), 108vh, 0) rotate(260deg);
+    opacity: 0;
+  }
+}
+
+/* Muted petal tints */
+.hue-0 {
+  background: linear-gradient(135deg, rgba(231, 209, 192, 0.9), rgba(216, 184, 161, 0.9));
+}
+.hue-1 {
+  background: linear-gradient(135deg, rgba(233, 220, 195, 0.9), rgba(211, 188, 145, 0.9));
+}
+.hue-2 {
+  background: linear-gradient(135deg, rgba(211, 220, 203, 0.9), rgba(184, 199, 173, 0.9));
+}
+
+/* ---------- stage ---------- */
+
+.env-stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(24px, 4.5vh, 38px);
+  /* Headroom above the envelope so the letter can rise fully into view */
+  margin-top: clamp(70px, 18vh, 200px);
+  margin-top: clamp(70px, 18svh, 200px);
+}
+
+.env-wrap {
+  position: relative;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- the envelope ---------- */
+
+.envelope {
+  position: relative;
+  /* Caps: 90vw on phones, 480px on desktop, 62svh on short landscape
+     screens so the rising letter always stays inside the viewport. */
+  width: min(90vw, 480px);
+  width: min(90vw, 480px, 62svh);
+  aspect-ratio: 7 / 5;
+  perspective: 1400px; /* gives the flap its 3D fold */
+  /* Grounded, layered cast shadow — warm and soft against the blush ground */
+  filter: drop-shadow(0 2px 3px rgba(120, 80, 70, 0.22))
+    drop-shadow(0 16px 34px rgba(120, 80, 70, 0.26));
+}
+
+
+.env-shadow {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: -30px;
+  height: 30px;
+  background: radial-gradient(
+    50% 60% at 50% 50%,
+    rgba(120, 80, 70, 0.32),
+    transparent 72%
+  );
+  filter: blur(9px);
+  z-index: 0;
+}
+
+/* Back panel — the patterned liner you glimpse inside */
+.env-back {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 10px;
+  background-image: repeating-linear-gradient(
+      135deg,
+      rgba(160, 131, 80, 0.08) 0 1.25px,
+      transparent 1.25px 14px
+    ),
+    linear-gradient(160deg, var(--liner-b), var(--liner-a));
+  box-shadow: inset 0 0 0 1px rgba(124, 98, 52, 0.16),
+    inset 0 1px 2px rgba(255, 252, 242, 0.5);
+}
+
+/* ---------- the letter ---------- */
+
+.letter {
+  position: absolute;
+  left: 4.5%;
+  right: 4.5%;
+  top: 3%;
+  bottom: 5%;
+  z-index: 2; /* behind the pocket → it emerges from the envelope mouth */
+  transform-style: flat; /* keep the card out of the flap's 3D fold space */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(7px, 1.8vh, 13px);
+  padding: 6%;
+  text-align: center;
+  background: linear-gradient(175deg, #fffdf7, #f6efdd);
+  border: 1px solid rgba(124, 98, 52, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 8px 22px rgba(70, 56, 32, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 0 0 1px rgba(255, 252, 242, 0.4);
+  color: var(--ink);
+  will-change: transform;
+}
+
+/* While emerging, the card stays behind the pocket (z 3) so it reads as
+   sliding up out of the envelope, but above the folded flap (z 1) so the
+   flap liner can't cut across it. */
+.letter--rising {
+  z-index: 2;
+}
+
+.letter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: var(--paper-tex);
+  background-size: cover;
+  background-position: 20% 30%;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+}
+
+.letter-kicker {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(9px, 2.5vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-indent: 0.38em; /* optically centres tracked-out caps */
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.letter-names {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(20px, 6.4vw, 31px);
+  line-height: 1.12;
+  letter-spacing: 0.015em;
+}
+
+.letter-names em {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.78em;
+  color: var(--gold);
+  padding: 0 0.1em;
+}
+
+.letter-ornament {
+  width: clamp(54px, 17vw, 72px);
+  height: auto;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+.letter-date {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(10px, 2.8vw, 12px);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- front pocket (three folded panels, SVG-shaped) ---------- */
+
+.env-pocket {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 10px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Paper-edge bevel + directional lighting: a warm highlight spills from the
+   upper-left and the paper settles into soft shade toward the lower-right,
+   as if lit by a single window-light source. */
+.env-pocket::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4; /* lighting sits over the panels and the couple motif */
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 4px rgba(96, 76, 44, 0.14),
+    inset 0 0 0 1px rgba(124, 98, 52, 0.12);
+  background:
+    /* warm key light from the upper-left */
+    radial-gradient(
+      90% 80% at 26% 18%,
+      rgba(255, 250, 236, 0.42) 0%,
+      rgba(255, 250, 236, 0) 52%
+    ),
+    /* ambient occlusion settling into the lower-right corner */
+    radial-gradient(
+      120% 120% at 78% 92%,
+      rgba(86, 66, 38, 0.22) 0%,
+      rgba(86, 66, 38, 0) 56%
+    ),
+    /* gentle overall vignette */
+    radial-gradient(
+      125% 125% at 50% 40%,
+      transparent 60%,
+      rgba(96, 76, 44, 0.12) 100%
+    );
+}
+
+.pocket-left,
+.pocket-right,
+.pocket-bottom {
+  position: absolute;
+  inset: 0;
+}
+
+.pocket-left::after,
+.pocket-right::after,
+.pocket-bottom::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--paper-tex);
+  background-size: cover;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+.pocket-left::after {
+  background-position: 0% 50%;
+}
+.pocket-right::after {
+  background-position: 100% 50%;
+}
+.pocket-bottom::after {
+  background-position: 50% 100%;
+}
+
+.pocket-left {
+  background: linear-gradient(115deg, #f7f1e2 22%, var(--paper) 60%, var(--paper-deep) 98%);
+  clip-path: url(#env-clip-pocket-left);
+  filter: drop-shadow(2px 0 3px rgba(110, 86, 48, 0.26));
+}
+
+.pocket-right {
+  background: linear-gradient(245deg, #f7f1e2 22%, var(--paper) 60%, var(--paper-deep) 98%);
+  clip-path: url(#env-clip-pocket-right);
+  filter: drop-shadow(-2px 0 3px rgba(110, 86, 48, 0.26));
+}
+
+.pocket-bottom {
+  background: linear-gradient(180deg, var(--paper-deep) 0%, var(--paper) 42%, #f7f1e2 100%);
+  clip-path: url(#env-clip-pocket-bottom);
+  /* Deeper shadow along its diagonal top edges so the V-fold reads */
+  filter: drop-shadow(0 -3px 5px rgba(110, 86, 48, 0.32));
+}
+
+.env-address {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 11.5%;
+  z-index: 5; /* sits above the lighting overlay */
+  margin: 0;
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(13px, 3.8vw, 17px);
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+
+/* ---------- flap shadow on the paper below ---------- */
+
+.flap-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 58%;
+  z-index: 4;
+  pointer-events: none;
+  clip-path: url(#env-clip-flap);
+  background: linear-gradient(
+    180deg,
+    rgba(96, 76, 44, 0) 44%,
+    rgba(96, 76, 44, 0.7) 99%
+  );
+  transform: translateY(3px);
+  opacity: 0.32;
+}
+
+/* ---------- top flap (3D fold, SVG-shaped) ---------- */
+
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 58%;
+  z-index: 5;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.flap--behind {
+  z-index: 1; /* once past 90°, the letter rises in front of it */
+}
+
+.flap-face {
+  position: absolute;
+  inset: 0;
+  clip-path: url(#env-clip-flap);
+  border-radius: 10px 10px 0 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flap-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--paper-tex);
+  background-size: cover;
+  background-position: 60% 10%;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+.flap-front {
+  background: linear-gradient(180deg, #fbf7ec 2%, #f4ecd7 52%, #e6dcc2 98%);
+  transform: translateZ(0.5px);
+  filter: drop-shadow(0 5px 6px rgba(110, 86, 48, 0.22));
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.55);
+}
+
+/* The inner face. NOTE: pre-mirrored with rotateY (vertical axis) so
+   that after the flap's own rotateX fold it stays hinged at the top
+   edge. Pre-mirroring with rotateX here is what made the flap open
+   detached and upside-down. */
+.flap-liner {
+  background-image: repeating-linear-gradient(
+      135deg,
+      rgba(160, 131, 80, 0.08) 0 1.25px,
+      transparent 1.25px 14px
+    ),
+    linear-gradient(180deg, var(--liner-a), var(--liner-b));
+  transform: rotateY(180deg) translateZ(0.5px);
+}
+
+/* ---------- wax seal (the button) ---------- */
+
+.seal-anchor {
+  position: absolute;
+  left: 50%;
+  top: 55%; /* the flap's rounded tip */
+  transform: translate(-50%, -50%);
+  z-index: 6;
+}
+
+.seal-button {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 50%;
+}
+
+.seal-button:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 7px;
+}
+
+.seal-img {
+  display: block;
+  /* Large, chunky wax seal — scales smoothly from phone to desktop */
+  width: clamp(124px, 35vw, 172px);
+  height: auto;
+  /* shadow lives on the img so it can animate as the seal lifts/falls */
+  filter: drop-shadow(0 6px 13px rgba(110, 70, 60, 0.42));
+  -webkit-user-drag: none;
+  user-select: none;
+  will-change: transform, filter, opacity;
+}
+
+/* Falling wax shards */
+.shards {
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.shard {
+  position: absolute;
+  background: #6c5226;
+  clip-path: polygon(50% 0, 100% 80%, 0 100%);
+  will-change: transform;
+}
+
+/* ---------- hint ---------- */
+
+.env-hint {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(10px, 2.7vw, 11px);
+  letter-spacing: 0.4em;
+  text-indent: 0.1em;
+  text-transform: uppercase;
+  /* Muted antique-gold, readable on the blush ground */
+  color: var(--gold-deep);
+  opacity: 0.85;
+}
+
+.env-hint::before,
+.env-hint::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .drift-petal {
+    animation: none;
+  }
+}

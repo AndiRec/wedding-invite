@@ -5,9 +5,10 @@ import type { TableData } from '@/lib/seating-data';
 interface CoupleTableProps {
   table: TableData;
   onSeatClick: (tableId: number, seatId: number) => void;
+  readOnly?: boolean;
 }
 
-const CoupleTable: React.FC<CoupleTableProps> = ({ table, onSeatClick }) => {
+const CoupleTable: React.FC<CoupleTableProps> = ({ table, onSeatClick, readOnly }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -26,7 +27,7 @@ const CoupleTable: React.FC<CoupleTableProps> = ({ table, onSeatClick }) => {
     >
       {/* Label */}
       <p className="font-display text-sm font-bold gold-text tracking-wide mb-2">
-        ✨ Edmond & Ajlin ✨
+       Partneri1 & Partneri2 ❤️
       </p>
 
       {/* Table visual */}
@@ -42,29 +43,16 @@ const CoupleTable: React.FC<CoupleTableProps> = ({ table, onSeatClick }) => {
           }}
         >
           {table.seats.map((seat) => {
-            const occupied = seat.guest !== null;
             return (
-              <button
+              <div
                 key={seat.id}
-                onClick={() => onSeatClick(table.id, seat.id)}
-                className={`rounded-xl flex items-center justify-center transition-all duration-200 font-ui
-                  ${occupied
-                    ? 'gold-gradient text-primary-foreground shadow-md'
-                    : 'bg-card border-2 border-primary/30 hover:border-primary/60'
-                  }`}
+                className="rounded-xl flex items-center justify-center gold-gradient text-primary-foreground shadow-md"
                 style={{ width: 100, height: 40 }}
-                title={seat.guest?.name || (seat.id === 1 ? 'Edmond' : 'Ajlin')}
               >
-                {occupied ? (
-                  <span className="text-xs font-semibold truncate px-2">
-                    {seat.guest!.name}
-                  </span>
-                ) : (
-                  <span className="text-[11px] text-muted-foreground font-medium">
-                    {seat.id === 1 ? 'Edmond' : 'Ajlin'}
-                  </span>
-                )}
-              </button>
+                <span className="text-xs font-semibold truncate px-2">
+                  {seat.id === 1 ? 'Partneri1' : 'Partneri2'}
+                </span>
+              </div>
             );
           })}
         </div>

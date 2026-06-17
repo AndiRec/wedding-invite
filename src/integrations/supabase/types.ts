@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      rsvps: {
+        Row: {
+          attending: boolean
+          created_at: string
+          guest_count: number
+          id: string
+          message: string | null
+          name: string
+          seat_id: number | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attending: boolean
+          created_at?: string
+          guest_count?: number
+          id?: string
+          message?: string | null
+          name: string
+          seat_id?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attending?: boolean
+          created_at?: string
+          guest_count?: number
+          id?: string
+          message?: string | null
+          name?: string
+          seat_id?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rsvps_seat_id_fkey"
+            columns: ["seat_id"]
+            isOneToOne: false
+            referencedRelation: "seats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       seats: {
         Row: {
           created_at: string

@@ -7,12 +7,12 @@ Deno.serve(async (req) => {
 
   // Create admin user
   const { data: existingUsers } = await supabase.auth.admin.listUsers();
-  const adminExists = existingUsers?.users?.some(u => u.email === "ajlin@wedding.com");
+  const adminExists = existingUsers?.users?.some(u => u.email === "admin@dasma.com");
 
   if (!adminExists) {
     const { error } = await supabase.auth.admin.createUser({
-      email: "ajlin@wedding.com",
-      password: "1506",
+      email: "admin@dasma.com",
+      password: "edi0110",
       email_confirm: true,
     });
     if (error) {

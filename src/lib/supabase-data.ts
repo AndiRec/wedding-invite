@@ -46,6 +46,53 @@ export const loadFromDB = async (): Promise<TableData[]> => {
   return dbToTableData(dbTables, dbSeats || []);
 };
 
+// Public guest lookup: find seats whose guest name matches a query.
+// Returns the table label/family name + seat number for each match.
+export interface SeatMatch {
+  guestName: string;
+  tableId: number;
+  tableLabel: string;
+  familyName: string;
+  seatNumber: number;
+}
+
+export const findSeatsByGuestName = async (query: string): Promise<SeatMatch[]> => {
+  const q = query.trim();
+  if (!q) return [];
+
+  // ilike '%q%' for a forgiving, case-insensitive contains match.
+  const { data, error } = await supabase
+    .from('seats')
+    .select('seat_number, guest_name, table_id, tables(label, family_name)')
+    .ilike('guest_name', `%${q}%`)
+    .order('table_id');
+
+  if (error || !data) return [];
+
+  // PostgREST may return the embedded parent (`tables`) as either a single
+  // object or a one-element array depending on how it infers the relationship.
+  // Normalize both shapes so the table label never silently goes blank.
+  type TableEmbed = { label: string; family_name: string };
+  const embed = (tables: TableEmbed | TableEmbed[] | null): TableEmbed | null =>
+    Array.isArray(tables) ? tables[0] ?? null : tables;
+
+  return data.map((row: {
+    seat_number: number;
+    guest_name: string | null;
+    table_id: number;
+    tables: TableEmbed | TableEmbed[] | null;
+  }) => {
+    const tbl = embed(row.tables);
+    return {
+      guestName: row.guest_name ?? '',
+      tableId: row.table_id,
+      tableLabel: tbl?.label ?? '',
+      familyName: tbl?.family_name ?? '',
+      seatNumber: row.seat_number,
+    };
+  });
+};
+
 // Seed initial layout to DB
 export const seedInitialData = async (): Promise<void> => {
   const layout = generateInitialLayout();
@@ -97,6 +144,37 @@ export const updateGuest = async (tableId: number, seatNumber: number, guestName
 // Update family name
 export const updateFamilyName = async (tableId: number, familyName: string) => {
   await supabase.from('tables').update({ family_name: familyName }).eq('id', tableId);
+};
+
+// Update table label (the display number)
+export const updateTableLabel = async (tableId: number, label: string) => {
+  await supabase.from('tables').update({ label }).eq('id', tableId);
+};
+
+// Delete a table and all its seats
+export const deleteTable = async (tableId: number) => {
+  await supabase.from('seats').delete().eq('table_id', tableId);
+  await supabase.from('tables').delete().eq('id', tableId);
+};
+
+// Add a new table to DB
+export const addTable = async (table: TableData): Promise<void> => {
+  await supabase.from('tables').insert({
+    id: table.id,
+    label: table.label,
+    family_name: table.familyName,
+    x: table.x,
+    y: table.y,
+    is_couple: table.isCouple || false,
+    seat_count: table.seats.length,
+  });
+
+  const seatRows = table.seats.map(s => ({
+    table_id: table.id,
+    seat_number: s.id,
+    guest_name: s.guest?.name || null,
+  }));
+  await supabase.from('seats').upsert(seatRows, { onConflict: 'table_id,seat_number' });
 };
 
 // Update seat count for a table
